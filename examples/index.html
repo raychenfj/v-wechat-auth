@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html style="font-size:40px">
+
+<head>
+  <title>v-wechat-auth</title>
+  <script src="https://unpkg.com/vue"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="./config.js"></script>
+  <script src="../dist/v-wechat-auth.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    your openid is: {{user.openid}}
+  </div>
+
+  <script>
+    Vue.use(VWechatAuth)
+
+    new Vue({
+      el: '#app',
+      data: {
+        user: null
+      },
+      wechatAuth: new VWechatAuth(config),
+      created () {
+        this.$wechatAuth.authorize()
+          .then(user => this.user = user)
+      }
+    })
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,26 @@
+{
+  "presets": [
+    [
+      "env",
+    {
+      "targets": {
+        "browsers": [
+          "last 2 versions"
+        ]
+      }
+    }
+    ]
+  ],
+  "plugins": [
+    "transform-vue-jsx",
+    "transform-object-rest-spread",
+    "transform-runtime"
+  ],
+  "env": {
+    "test": {
+      "plugins": [
+        "istanbul"
+      ]
+    }
+  }
+}
