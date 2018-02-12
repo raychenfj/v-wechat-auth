@@ -12,6 +12,10 @@ const defaultOptions = {
   }
 }
 
+function isFunction (fn) {
+  return fn && typeof fn === 'function'
+}
+
 export default class WechatAuth {
   /**
    * @typedef {Object} Options wechat auth options
@@ -39,28 +43,54 @@ export default class WechatAuth {
     this.user = null
   }
 
-  authorize () {
+  authorize (onSuccess, onFail) {
     const urlObj = url.parse(window.location.href, true)
 
     if (urlObj.query && !urlObj.query.code) {
+      // delete state in query in url
       delete urlObj.query.state
       delete urlObj.search
       return this.redirect(url.format(urlObj))
     }
 
+    // decorated success
+    const success = (data) => {
+      const user = this.onSuccess(data)
+      if (isFunction(onSuccess)) {
+        onSuccess(user)
+      }
+      return user
+    }
+
+    // decorated fail
+    const fail = (e) => {
+      this.onFail(e)
+      if (isFunction(onFail)) {
+        onFail(e)
+      }
+    }
+
     try {
-      const promise = this.options.authorize(urlObj.query.code, this.onSuccess.bind(this), this.onFail.bind(this))
+      // if options.authorize use callback
+      const promise = this.options.authorize(urlObj.query.code, success, fail)
+
+      // if options.authorize return promise
       if (promise && promise instanceof Promise) {
-        return promise.then(data => this.onSuccess(data))
+        return promise.then(success).catch(fail)
       }
     } catch (e) {
-      this.onFail(e)
+      fail(e)
     }
   }
 
+  /**
+   * @private
+   * @param {*} data
+   */
   onSuccess (data) {
     if (!data.openid && this.options.autoRedirect) {
       const urlObj = url.parse(window.location.href, true)
+      // delete code and state in query in url
       delete urlObj.query.code
       delete urlObj.query.state
       delete urlObj.search
@@ -70,6 +100,10 @@ export default class WechatAuth {
     return this.user
   }
 
+  /**
+   * @private
+   * @param {*} e
+   */
   onFail (e) {
     console.error('error occurs when authorize from back end')
     console.error(e)
