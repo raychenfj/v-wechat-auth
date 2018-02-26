@@ -63,7 +63,7 @@ this.$wechatAuth.authorize()
 
 1. 将 ```examples``` 文件夹中的 ```config.example.js``` 重命名为 ```config.js```
 
-2. 修改 ```config.js```, 填入微信 appid 和 scope, 并在 ```authorize``` 方法中调用后端接口获取用户信息，并将用户信息返回
+2. 修改 ```config.js```, 填入微信 appid 和 scope, 并在 ```authorize``` 方法中调用后端接口获取用户信息，并将用户信息返回
 
 4. 修改 ```host``` 文件，将微信授权域名映射为 ```localhost```
 
@@ -78,9 +78,9 @@ this.$wechatAuth.authorize()
 
 ## options
 
-| 属性 | 类型 | 必输 | 默认 | 说明 |
+| 属性 | 类型 | 必输 | 默认 | 说明 |
 |-------|-------|-------|-------|-------|
-| autoRedirect | boolean | 否 | true | 当 url 中不包含 code 参数或返回结果中不包含openid时，是否自动重定向到微信授权url |
+| autoRedirect | boolean | 否 | true | 当 url 中不包含 code 参数或返回结果中不包含openid时，是否自动重定向到微信授权url |
 | appId | string | 是 | | 微信 appid |
 | scope | string | 是 | | 微信 scope, ```snsapi_base``` 或 ```snsapi_userinfo``` |
 | state | string | 否 | '' | 微信 state |
@@ -95,7 +95,7 @@ this.$wechatAuth.authorize()
 
 | 方法 | 参数 | 返回 | 说明 |
 |------|------|-------|------|
-| authorize | onSuccess，执行成功的回调函数 <br/> onFail，执行失败的回调函数 | Promise | 授权获取用户信息，支持回调函数 和 Promise
+| authorize | onSuccess，执行成功的回调函数 <br/> onFail，执行失败的回调函数 | Promise | 授权获取用户信息，支持回调函数 和 Promise
 
 
 
