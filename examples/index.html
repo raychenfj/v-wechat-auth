@@ -2,7 +2,7 @@
 <html style="font-size:40px">
 
 <head>
-  <title>v-wechat-auth</title>
+  <title>v-wechat-auth example</title>
   <script src="https://unpkg.com/vue"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script src="./config.js"></script>
@@ -20,7 +20,7 @@
     new Vue({
       el: '#app',
       data: {
-        user: null
+        user: {}
       },
       wechatAuth: new VWechatAuth(config),
       created () {

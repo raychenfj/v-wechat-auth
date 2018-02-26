@@ -22,6 +22,7 @@ export default class WechatAuth {
    * @property {boolean} autoRedirect optional, auto redirect to wechat oauth url when there is no code in query or no openid in ajax response
    * @property {string} appId required, wechat appId
    * @property {string} scope required, wechat auth scope, snsapi_base or snsapi_userinfo
+   * @property {string} state optional, wechat state
    * @property {function} authorize required, an ajax call to back end and should return an object contains openid at least, support promise or callback
    * @property {boolean} ssr optional, used in server side render, feature not implement yet
    */
@@ -43,6 +44,12 @@ export default class WechatAuth {
     this.user = null
   }
 
+  /**
+   * authorize
+   * @param {*} onSuccess
+   * @param {*} onFail
+   * @returns {Promise}
+   */
   authorize (onSuccess, onFail) {
     const urlObj = url.parse(window.location.href, true)
 
@@ -84,6 +91,7 @@ export default class WechatAuth {
   }
 
   /**
+   * onSuccess
    * @private
    * @param {*} data
    */
@@ -101,6 +109,7 @@ export default class WechatAuth {
   }
 
   /**
+   * onFail
    * @private
    * @param {*} e
    */
@@ -109,6 +118,10 @@ export default class WechatAuth {
     console.error(e)
   }
 
+  /**
+   * redirect to wechat auth url
+   * @param {*} url
+   */
   redirect (url) {
     const options = this.options
     window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${options.appId}&redirect_uri=${encodeURIComponent(url)}&response_type=code&scope=${options.scope}&state=${options.state}#wechat_redirect`
